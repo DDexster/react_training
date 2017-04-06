@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Article!</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js"></script>
+</head>
+<body>
+
+  <div id="content"></div>
+
+  <script type="text/babel">
+    var Article = React.createClass({
+      render: function() {
+        return (
+          <div>
+            <h1>{this.props.title}</h1>
+            <p>{this.props.body}</p>
+            <p><em>by {this.props.author}</em></p>
+          </div>
+        );
+      }
+    });
+
+    ReactDOM.render(
+      <Article title="Enable Emmet in Atom"
+      body="Open the keymap.cson file by clicking on Atom -> Keymap… in the menu Add these lines of code to your keymap: 'atom-text-editor[data-grammar~=]:not([mini])':   'tab': 'emmet:expand-abbreviation-with-tab' Now open a file with JSX code, type div.myclass, press tab and it should autocomplete to <div className</div>! (if it's not properly syntax highlighted, select Babel ES6 JavaScript or JSX as the syntax, this won't work otherwise)"
+      author = "mxstbr" />,
+      document.getElementById("content")
+    );
+  </script>
+
+</body>
+</html>

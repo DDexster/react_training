@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contacts search</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js"></script>
+</head>
+<body>
+    <div id='content'></div>
+
+    <script type="text/babel">
+
+        var Answer = React.createClass({
+
+          shouldComponentUpdate: function(nextProps, nextState) {
+            return true;
+          },
+
+          getResult : function () {
+            switch (this.props.sign) {
+              case "+":
+                return this.props.x+this.props.y;
+              case "-":
+                return this.props.x-this.props.y;
+              case "*":
+                return this.props.x*this.props.y;
+              case "/":
+                return this.props.x/this.props.y;
+              default:
+                break;
+            }
+          },
+
+          render: function () {
+            return(
+              <h2>Answer is {this.getResult()}!</h2>
+            );
+          }
+        });
+
+
+        var Calc = React.createClass({
+
+            getInitialState: function() {
+                return {
+                  x: 0,
+                  y:0,
+                };
+            },
+
+
+            handleX: function(event){
+              event.preventDefault();
+              var value = +event.target.value;
+              this.setState({
+                x: value
+              });
+
+            },
+
+            handleY: function(event){
+              event.preventDefault();
+              var value = +event.target.value;
+              this.setState({
+                y: value
+              });
+            },
+
+            handleRadio: function functionName(event) {
+                var radio = event.target.value;
+                this.setState({
+                  sign: radio
+                })
+            },
+
+            render: function() {
+                return (
+                  <div>
+                    <input type="text" placeholder="Type X..." onChange={this.handleX} /> <br/>
+                    <input type="text" placeholder="Type Y..." onChange={this.handleY} /> <br/>
+
+                        <div onChange={this.handleRadio}>
+                          <input type="radio" name="sign" value="+" />+<br/>
+                          <input type="radio" name="sign" value="-" />-<br/>
+                          <input type="radio" name="sign" value="*" />*<br/>
+                          <input type="radio" name="sign" value="/" />/<br/>
+                        </div>
+                    <Answer x={this.state.x} y={this.state.y} sign={this.state.sign} />
+                  </div>
+                );
+            }
+        });
+
+        ReactDOM.render(
+            <Calc />,
+            document.getElementById("content")
+        );
+
+    </script>
+</body>
+</html>

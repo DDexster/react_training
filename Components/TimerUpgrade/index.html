@@ -1,46 +1,93 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang     ="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Timer</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js"></script>
+  <meta charset="UTF-8">
+  <title>Timer</title>
+  <link rel   ="stylesheet" href ="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity ="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin ="anonymous">
+  <link rel   ="stylesheet" href ="./font-awesome.css">
+  <link rel   ="stylesheet" href ="./font-awesome.css">
+
+  <link rel   ="stylesheet" href ="./style.css">
+  <script src ="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react.js"></script>
+  <script src ="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.0/react-dom.js"></script>
+  <script src ="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.6.15/browser.js"></script>
+
 </head>
 <body>
-    <div id='mount-point'></div>
+  <div id ='mount-point'></div>
 
-    <script type="text/babel">
-        var Timer = React.createClass({
-            getInitialState: function() {
-                return {
-                    seconds: 0
-                };
-            },
+  <script type ="text/babel">
+  var Timer    = React.createClass({
 
-            componentDidMount: function() {
-                this.timer = setInterval(this.tick, 1000);
-            },
+    getInitialState: function() {
+      return {
+        seconds: 0,
+        isPaused: true
+      };
+    },
 
-            tick: function() {
-                this.setState({ seconds: this.state.seconds + 1 });
-            },
+    tick: function() {
+      this.setState({ seconds: this.state.seconds + 1 });
+    },
 
-            componentWillUnmount: function() {
-                clearInterval(this.timer);
-            },
+    componentWillUnmount: function() {
+      clearInterval(this.timer);
+    },
 
-            render: function() {
-                return (
-                    <h4> Уже прошло {this.state.seconds} секунд </h4>
-                );
-            }
-        });
+    handleStart: function () {
+      this.timer = setInterval(this.tick, 1000);
+      this.setState({
+        isPaused: false
+      });
+    },
 
-        ReactDOM.render(
-            <Timer />,
-            document.getElementById('mount-point')
-        );
+    handlePause: function () {
+      clearInterval(this.timer);
+      this.setState({
+        isPaused: true
+      });
+    },
+
+    handleReset: function () {
+      this.setState({
+        seconds: 0
+      });
+    },
+
+    render: function() {
+      var seconds = this.state.seconds >= 60 ?
+      this.state.seconds % 60 : this.state.seconds;
+
+      var minutes = this.state.seconds >= 60 ?
+      Math.floor(this.state.seconds / 60) : 0;
+
+      return (
+        <div className="timer text-center">
+          { this.state.isPaused ?
+            (<div className   ="btn start-button" onClick={this.handleStart}>
+                <i className="fa fa-play-circle-o fa-3x fa-inverse" aria-hidden="true"></i>
+            </div>)
+            : (<div className ="btn pause-button" onClick={this.handlePause}>
+                <i className="fa fa-pause-circle-o fa-3x fa-inverse" aria-hidden="true"></i>
+            </div>)
+          }
+            <div className="timer-block text-center">
+               {minutes >= 10 ? minutes : ('0'+minutes)}
+              :{seconds >= 10 ? seconds : ('0'+seconds)}
+            </div>
+          <div className ="btn reset-button" onClick={this.handleReset}>
+              <i className="fa fa-rotate-left fa-3x fa-inverse" aria-hidden="true"></i>
+          </div>
+        </div>
+
+      )
+    }
+  });
+
+  ReactDOM.render(
+    <Timer />,
+    document.getElementById('mount-point')
+  );
   </script>
 </body>
 </html>
